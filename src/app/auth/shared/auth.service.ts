@@ -25,9 +25,6 @@ export class AuthService {
   }
 
   login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
-    console.log('loginRequestPayload');
-
-    console.log(loginRequestPayload);
     return this.httpClient
       .post<LoginResponse>(
         'http://localhost:8080/api/auth/login',
@@ -35,19 +32,20 @@ export class AuthService {
       )
       .pipe(
         map((data) => {
-          // this.localStorage.store(
-          //   'authenticationToken',
-          //   data.authenticationToken
-          // );
-          // this.localStorage.store('username', data.username);
-          // this.localStorage.store('refreshToken', data.refreshToken);
-          // this.localStorage.store('expiresAt', data.expiresAt);
-
-          // this.loggedIn.emit(true);
-          // this.username.emit(data.username);
-          console.log(data);
+          this.localStorage.store(
+            'authenticationToken',
+            'data.authenticationToken'
+          );
+          this.localStorage.store('username', data.email);
+          this.localStorage.store('id', data.id);
+          //  this.loggedIn.emit(true);
+          // this.username.emit(data.email);
           return true;
         })
       );
+  }
+
+  getToken() {
+    return this.localStorage.retrieve('authenticationToken');
   }
 }
